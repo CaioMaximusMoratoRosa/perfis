@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tela de Login Personalizada</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div class="input-container">
+        <h1>Digite alguma alcunha</h1>
+        <input type="text" id="user-name" class="input-container-input" placeholder="Digite seu nome">
+        <button id="login-button" class="input-container-button">ENTRAR</button>
+    </div>
+
+    <div id="profile-container" class="profile-container hidden">
+        <img id="profile-image" class="profile-image" src="" alt="Imagem de Perfil">
+        <div id="profile-name" class="profile-name"></div>
+        <div id="profile-bio" class="profile-bio"></div>
+        <button onclick="location.reload(true)" class="input-container-button">Voltar ao inicio</button>
+    </div>
+
+    <audio id="profile-music" hidden></audio>
+
+    <script>
+        const profiles = {
+            "CAIO": {
+                image: "foto_caio.jpeg",
+                name: "Caio Maximus",
+                bio: "Ele é um cara de fato inteligente pra coisas objetivas, como geografia, matematica no geral e coisas que possuem resultados exatos,  ele tem uma boa noção de moral pra coisas como certo e errado, ele valoriza os amigos e ajuda o maximo possivel quando pode se vc disser que tem algum problema, ele tem o ego muito grande, oq é uma espada de dois gumes pq atrapalha por ele se achar uma coisa maior do que é e se decepciona depois por isso mas também é bom pq ajuda a não se diminuir e ver valor em si mesmo. Gosta de crianças e gatos. ",
+                music: "musica_caio.mp3",
+                textColor: "rgb(35, 184, 139)",
+                bottonColor: "#630CC6"
+            },
+            "VERME": {
+                image: "foto_verme.jpeg",
+                name: "Verme",
+                bio: `No solo úmido, onde o sol já não brilha\n
+                    Um verme rasteja, seguindo sua trilha,\n
+                    Na terra escura, ele se esconde e tece,\n
+                    Uma vida simples, ainda sem a paz que merece.\n\n
+                    Sem asas para voar, com um coração sem bater,\n
+                    Em meio a tempestade elétrica, ele sabe viver,\n
+                    Um insensível direto, na sombra a se mover,\n
+                    Abaixo de todos, irritar é seu prazer.\n\n
+                    Ainda em conflito sobre o sentimento com sua alma gêmea\n
+                    Em que a manifestação positiva gera um "calada fêmea"\n
+                    Apesar da grande ninhada,\n
+                    Esse parasita se destaca,\n
+                    E mesmo com tempo, sua lista de tarefas não é encerrada,\n
+                    Incisivo em suas ideias, como o corte de uma faca,\n\n
+                    Afinal toda a sua complexidade o deixa acima do germe,\n
+                    Pois mesmo agindo igual homem, não possui a alcunha de Guilherme,\n
+                    Mas não tem metamorfose como de uma lagarta, caminhando na epiderme\n
+                    Afinal sua essência não é sobre mudança, pois lagarta não é verme.`,
+                music: "musica_verme.mp3",
+                textColor: "rgb(184, 35, 134)",
+                bottonColor: "#55284f"
+            },
+            "ASHIER": {
+                image: "foto_ashier.jpg",
+                name: "AsHiEr",
+                bio: "ENTP 6w5 - sp/sx - 641 ILE True Neutral SCUEI EFLV Choleric-Sanguine EN(T)",
+                music: "musica_ashier.mp3",
+                textColor: "black",
+                bottonColor: "#B82386"
+            },
+            "VALENTINE": {
+                image: "foto_valentine.gif",
+                name: "Valentine",
+                bio: "se vc morresse eu ia sentir falta da tua bastialidade com coisas do mundo real, tua variação de monge sábio pra adolescente mimada, teu jeito agridoce, tuas reclamações da morsa, tua vontade de gritar com teus parentes mas n fazer pq n quer ter ataque cardiaco, tu tentando causar minha morte no free fire, sendo grosseiro por nada, falando de qualquer coisa q se voltasse pra sexo do nada, me chamando de imbecil do krl, errando a pronuncia dos acentos, querendo ter pau, querendo comprar 2050 coisas na shien, tomando agua com gas, mandando figurinha igual doente algumas até pornograficas, n me ajudando com as novinha, sendo um bosta e é claro, fazendo aniversário",
+                music: "musica_valentine.mp3",
+                textColor: "black",
+                bottonColor: "#29E8A3"
+            },
+            "MAIRA": {
+                image: "foto_maira.jpg",
+                name: "Maira Azeredo",
+                bio: "Nenhuma ciencia no mundo é capaz de explicar como vc saiu de dentro da sua mãe, é simplesmente ilogico mas aconteceu a exatos 17 anos então feliz aniversario",
+                music: "musica_maira.mp3",
+                textColor: "#29E8A3",
+                bottonColor: "#B82386"
+            },
+            "LET": {
+                image: "foto_let.jpg",
+                name: "LL",
+                bio: "Let, eu tô escrevendo isso antes de ir pra fatec no dia 26/09, eu n sei como ou se teve uma despedida mas eu n gosto muito da ideia, porra de concurso, eu sinto q esse semestre a gente ficou mais proximo, a gente tava se falando mais e tu tava acreditando no meu potencial com as novinha, tu foi a primeira pessoa q eu falei do encontro, eu me senti seguro de falar pra tu, eu nunca lembro como eu começo amizades com as pessoas mas pelo menos com o pessoal da fatec é pior pq eu realmente n lembro nada tipo, foi só a união do uber? Parece meio simples mas ainda assim é estranho pq nós eramos 3 desconhecidos e n calhou de nenhum de nós ser pau no cu? O mundo é cheio de pau no cu qual a probabilidade? Duvido q a galera q vai de onibus pras cidades lá na casa do krl se quer se conhece, é uma forma diferente de valorização, é como se a nossa amizade tivesse sido lapidada sem querer e pra finalizar n esquece de assistir velozes e furiosos com a tua mina",
+                music: "musica_let.mp3",
+                textColor: "black",
+                bottonColor: "#D52D00"
+            },
+            "LORENA": {
+                image: "foto_lo.jpg",
+                name: "Lô ♦️",
+                bio: "Alô Lô, tanto tempo q a gente já se conhece,  eu lembro no começo quando tu era toda doidinha, ficava postando meme e coisa estranha no status aí eu respondi um de sapo e a gente começou a se xingar se n me engano, tu falava da tua vida no ensino médio com tuas amigas, desenhando pênis no caderno e eu ficava impressionado com a vida da classe média alta, fazia teus desenhos e as vezes me mostrava, eu lembro quando tu chorou pq achou q foi horrível no vestibular mas dps tu descobriu q tu passou na prova então tu é loka, teve tbm a série coreana de justiça juvenil q tu me recomendou, aquela série era surpreendentemente boa, uma característica q eu gosto bastante de tu é q n importa a situação q seja tu simplesmente tira foto do nada, tu vê um papel estranho e tira foto fds, e tbm tu parece inabalável, nunca fica toda triste e depressiva, só vive a vida normal e é engraçado como a nossa dinâmica de conversa ficou diferente nos últimos tempos, a gente só se fala a cada 2 meses e ainda é a msm coisa, é a amizade virtual mais longa q eu já tive eu acho, tbm é impressionante q a gente mora na casa do krl um do outro e tem o msm sotaque é bom ter vc, obrigado por existir e já q tá no mês, feliz aniversário (PS: eu queria usar uma foto de tu criança q tu tinha mandado uma vez mas eu perdi as conversas então n tem como)",
+                music: "musica_lo.mp3",
+                backgroundColor: "#578018",
+                textColor: "rgb(255, 203, 39)",
+                bottonColor: "#578018"
+            },
+            "LUA": {
+                image: "foto_lua.jpeg",
+                name: "Aluada",
+                bio: `Nome: Luana Pereira Gomes, \n
+                    Data de Nasc: 02/09/2005, \n
+                    Cor Favorita: Marrom 🟤, \n
+                    Estado Civil: Casada, \n
+                    Emprego: Atendente Administrativo, \n
+                    Mãe: Ana Lucia, \n
+                    Pai: (Sla), \n
+                    Início amizade: 08/2022, \n
+                    Local de início: Enjoy, \n
+                    Locação: Jockey, \n
+                    Estilo musical: eclética, \n
+                    Irmãos: Joseane (sla), \n
+                    Irmão (não oficial): 0, \n
+                    Altura: 1,61, \n
+                    Olhos: Castanho, \n
+                    Faculdade: Pedagogia, \n
+                    Conhecimento: Política, Literatura, Educação básica, \n
+                    Medo: Polvos (suponho)`,
+                music: "musica_lua.mp3",
+                backgroundColor: "#54350C",
+                textColor: "rgb(253, 253, 37)",
+                bottonColor: "#9B4F96"
+            },
+            "LUANA": {
+                image: "foto_lua.jpeg",
+                name: "Luana PG",
+                bio: `É Lua, ter q escrever esse texto pq tu queria 2 perfis é foda, eu gosto da convivência contigo embora tu apareça 1 vez na semana, tu sempre tá toda animada alegre e simpática, acho q se alguém anunciar um assalto na tua frente tu só vai soltar um "Olá", antes eu achava q tu tinha uma cara de pessoa q me faria mal de alguma forma mas hj eu n tenho mais isso, parece só algo bobo vendo agr já q tbm tu foi a única coisa boa q eu ganhei da Enjoy,  os cara n me deu nem certificado, toma no cu,  esse teu carisma e simpatia fez tu chegar longe até emprego tu conseguiu com isso o céu é o limite eu acho, da pra fazer muita coisa com isso,  já parou pra pensar q se n fosse isso tu nunca ia ter aceitado ler meus sonhos e a gente nunca ia ter essa amizade, aliás eu já disse isso mas tu foi a primeira a ler todos desde aquela época n tenho tido sonhos bons, acho q é a rotina me matando aos poucos mas o bom é q tu n faz parte da rotina,  n da pra eu me planejar pra ir falar contigo pq tu aparece do nada e dps de um tempo mas no fim eu gosto desse pensamento de "eu n sei quando mas ela vai voltar e deve rir de alguma coisa q eu disse"`,
+                music: "musica_luana.mp3",
+                backgroundColor: "#54350C",
+                textColor: "rgb(253, 253, 37)",
+                bottonColor: "#472C07"
+            },
+            "KAUAJI": {
+                image: "foto_kauaji.jpeg",
+                name: "KJ",
+                bio: "É estranho como a gente só se conhece por causa da Gabi, eu nem lembrava de tu na sala até ela falar, foi a melhor relação forçada q alguém poderia ter, pqp Leo tá fazendo cirurgia agr, eu nem tinha reparado em tu antes da Gabi falar, tu deve tua alma pra essa menina,  eu n sei quando teve a virada de chave q a gente virou algo parecido com amigos de vdd, eu lembro q no dia q a minha gata morreu tu fez piada com isso, meio paia da sua parte talvez, o foda é q como q começa amizade com o anticultura, n vê série, n vê filme,  n escuta música, n lê livro, nem nadar eu sabia nessa época mas ainda assim tu seguiu sentando com a gente e eu lembro q tu era engraçado pra krl e nem precisava ser racista, tu tbm falava extremamente baixo sla pq hj tu grita sempre q pode na call, acabei de lembrar da tua live q a gente contou a história da vó do Gusmão, hj a gente tá bem mais próximo q nos tempos anteriores, tbm dps de 6 anos já era a hora, tu tbm me inspirou a fazer ads na busca pelo dinheiro infinito, msm q tu esteja de sacanagem e trabalhando de porteiro,  aliás eu gostei do teu bigode, a gente ainda vai convencer o Cass e o Loes a ter paladar de gente e comer no japonês, no mínimo a gente vai no homem do ano q eu n posso participar pq descumpri o não mamaras, n vai ter grande diferença se eu tiver um ano pika independente disso, será q pelo menos ano q vem rola confeccionar o troféu? Se sim eu quero ganhar, obrigado por sempre manter o exterior calmo msm só querendo jogar a moto na parede, isso pelo menos garante q se tu morrer n vai ser de propósito então deve viver mais tempo, é um privilégio ter vc entre as pessoas importantes da minha vida, obrigado por ter vivido a sua vida plenamente",
+                music: "musica_kauaji.mp3",
+                backgroundColor: "#8F10F3",
+                textColor: "rgb(16, 44, 243)",
+                bottonColor: "#8F10F3"
+            },
+            "CASS": {
+                image: "foto_cass.jpg",
+                name: "Cass",
+                bio: "Cass, casa, guezz, gás,  Cássio, Gazzanigga, meu melhor amigo, o cara q provavelmente mais me xingou na vida, sempre foi mais esperto mesmo eu sendo mais inteligente, é tipo o Verme, sempre com total convicção dos seus pontos ou das suas ideias chega até a ser engraçado, acho q tu é junto com o Leo a pessoa q eu mais tenho a capacidade de transmitir uma ideia só de olhar, isso ficou ainda maior dps de 2018 com o Lissavirus, pior q esse ano teve a greve dos caminhoneiros mas mó fds tlgd, teve o orelha gritando na escada q é algo q só eu e tu notamos aparentemente msm q tivesse gente pra k7 e o maluco tava sendo um gorila tu tbm ganhou do tu transa no jogo dele, aé eu te ensinei a jogar pebolim, foi épico tu virou um dos melhores q eu já vi, eu n lembro como tu tava indo no terceiro ano ou se tu ia ou queria fazer algo da vida, mas eu imagino q fosse promissor tá foda de escrever isso é o quarto texto seguido, acho q pra resumir é muito bom ter vc na minha vida, n sei como eu seria se nunca tivesse te conhecido, provavelmente pior então obrigado",
+                music: "musica_cass.mp3",
+                backgroundColor: "#8F10F3",
+                textColor: "black",
+                bottonColor: "#8F10F3"
+            },
+            "LOES": {
+                image: "foto_loes.jpg",
+                name: "Dark_Nominalaxel",
+                bio: "Loes, o precursor do criacionismo, o criador do conselho dos crias, o maior ímã de buceta de nós 4, o primeiro a ter um apelido, ainda era o 7 ano q a gente tinha a msm altura aliás, n lembro como a gente começou a se falar mas tu q me recomendou o canal do Davy Jones, desde 2014 defendendo o mago,  fora isso no sexto tu era um cusão mas a gente já resolveu isso, eu tbm lembro da gente ser dois retardado q gostava de geografia e gostava minimamente de futebol q ia virar doença em 2017, eu tbm lembro do trabalho de bosta de geografia, teve os sonhos da Paula, tbm teve já no Zulmira a vez q tu deu o maior grito da existência simplesmente pq o Cass pediu, até o Vinicius veio te socorrer pra saber oq aconteceu,  aé tu usava fichário q viado, teve a escada tbm mas puta bgl fds, eu ainda pretendo conseguir te convencer a ter alguma carreira em algo q tu goste mas até lá a gente vai com oq dá, esse texto n tá com muito sentido mas fds eu gosto da naturalidade dele relembrando pontos da nossa amizade, n é aniversário fds, sou muito grato por ser teu amigo, não morra antes de mim",
+                music: "musica_loes.mp3",
+                textColor: "#8F10F3",
+                bottonColor: "#black"
+            }
+        };
+
+        document.getElementById('login-button').addEventListener('click', function() {
+            const userName = document.getElementById('user-name').value.toUpperCase();
+            const profileContainer = document.getElementById('profile-container');
+            const profileImage = document.getElementById('profile-image');
+            const profileName = document.getElementById('profile-name');
+            const profileBio = document.getElementById('profile-bio');
+            const inputContainer = document.querySelector('.input-container');
+            const profileMusic = document.getElementById('profile-music');
+            const body = document.body;
+
+            if (profiles[userName]) {
+                profileImage.src = profiles[userName].image;
+                profileName.textContent = profiles[userName].name;
+                profileBio.textContent = profiles[userName].bio;
+
+                profileContainer.classList.remove('hidden');
+                inputContainer.style.display = 'none'; 
+
+                profileMusic.src = profiles[userName].music;
+                profileMusic.play();
+                profileMusic.loop = true;
+
+                let gradientColor;
+        switch (userName.toLowerCase()) {
+            case 'caio':
+                gradientColor = 'linear-gradient(135deg, #8B1AE3, #2A0B8A)';
+                break;
+            case 'verme':
+                gradientColor = 'linear-gradient(135deg, #29E8A3, #0B727A)';
+                break;
+            case 'lorena':
+                gradientColor = 'linear-gradient(135deg, #578018, #578018)';
+                break;
+            case 'lua':
+                gradientColor = 'linear-gradient(#D60270, #D60270, #9B4F96, #0038A8, #0038A8)';
+                break;
+            case 'luana':
+                gradientColor = 'linear-gradient(135deg, #5F3A07, #885A1B)';
+                break;
+            case 'kauaji':
+                gradientColor = 'linear-gradient(135deg, #8F10F3, #8F10F3)';
+                break;
+            case 'ashier':
+                gradientColor = 'linear-gradient(135deg, #29E8A3, #29E8A3, #29E8A3, #B82386, #29E8A3, #29E8A3, #29E8A3)';
+                break;
+            case 'valentine':
+                gradientColor = 'linear-gradient(135deg, #29E8A3, #29E8A3, #B82386, #29E8A3, #29E8A3, #B82386, #29E8A3, #29E8A3, #B82386, #29E8A3, #29E8A3, #B82386, #29E8A3, #29E8A3, #B82386, #29E8A3, #29E8A3, #B82386, #29E8A3, #29E8A3, #B82386, #29E8A3, #29E8A3, #B82386, #29E8A3, #29E8A3, #B82386, #29E8A3, #29E8A3, #B82386, #29E8A3, #29E8A3, #B82386, #29E8A3, #29E8A3, #B82386, #29E8A3, #29E8A3, #B82386, #29E8A3, #29E8A3, #B82386, #29E8A3, #29E8A3, #B82386, #29E8A3, #29E8A3, #B82386, #29E8A3, #29E8A3)';
+                break;
+            case 'maira':
+                gradientColor = 'radial-gradient(#B82386, #B82386, #B82386, #29E8A3)';
+                break;
+            case 'cass':
+                gradientColor = 'linear-gradient(#8B1AE3, #FC1414)';
+                break;
+            case 'loes':
+                gradientColor = 'linear-gradient(#000000, #000000)';
+                break;
+            case 'let':
+                gradientColor = 'linear-gradient(#D52D00, #EF7627, #FF9A56, #FFFFFF, #D162A4, #B55690, #A30262)';
+                break;
+            default:
+                gradientColor = 'linear-gradient(135deg, var(--cor-principal), var(--cor-terciaria))';
+                break;
+        }
+
+        body.style.backgroundImage = gradientColor;
+        
+                document.documentElement.style.setProperty('--cor-secundaria', profiles[userName].textColor || 'rgb(174, 184, 35)');
+                document.documentElement.style.setProperty('--cor-terciaria', profiles[userName].bottonColor || '#285528');
+
+            } else {
+                alert('Usuário não encontrado');
+            }
+        });
+    </script>
+
+</body>
+</html>
